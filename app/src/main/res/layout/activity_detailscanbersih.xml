@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/bgcolor_details">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_recommended_color"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/pageScanBersih"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:layout_below="@+id/toolbar"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="3dp"
+        >
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="PIC"
+            android:textStyle="bold"
+            android:id="@+id/lblPIC" />
+
+        <TextView
+            android:layout_toRightOf="@id/lblPIC"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="PIC"
+            android:textStyle="bold"
+            android:id="@+id/txtPIC" />
+
+        <TextView
+            android:layout_below="@id/lblPIC"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Ruang :"
+            android:textStyle="bold"
+            android:id="@+id/ddRuang1" />
+        <Spinner
+            android:layout_below="@id/ddRuang1"
+            android:id="@+id/ddRuang"
+            android:paddingLeft="0dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@id/ddRuang"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Jumlah Item :"
+            android:textStyle="bold"
+            android:id="@+id/lblJumlahItem" />
+
+        <TextView
+            android:layout_below="@id/ddRuang"
+            android:layout_toRightOf="@+id/lblJumlahItem"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            android:id="@+id/valJumlahItem" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/valJumlahItem">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cetak"
+                android:background="@color/blue2"
+                android:textColor="@color/white"
+                android:id="@+id/BtnCetak" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/info"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

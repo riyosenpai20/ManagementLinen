@@ -1,0 +1,33 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+        <style name="AppBaseTheme" parent="android:Theme.Light">
+    -->
+<!--    <style name="AppBaseTheme" parent="android:Widget.Material.Light">-->
+<!--        &lt;!&ndash;-->
+<!--            Theme customizations available in newer API levels can go in-->
+<!--            res/values-vXX/styles.xml, while customizations related to-->
+<!--            backward-compatibility can go here.-->
+<!--        &ndash;&gt;-->
+<!--    </style>-->
+
+<!--    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--        &lt;!&ndash; Your theme settings &ndash;&gt;-->
+<!--    </style>-->
+
+<!--    &lt;!&ndash; Application theme. &ndash;&gt;-->
+<!--    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
+<!--        &lt;!&ndash; All customizations that are NOT specific to a particular API-level can go here. &ndash;&gt;-->
+<!--    </style>-->
+    <style name="Base.Theme.MaterialAutoCompleteDropdown" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.MaterialAutoCompleteDropdown" parent="Base.Theme.MaterialAutoCompleteDropdown" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

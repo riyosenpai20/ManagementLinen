@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PreviewSTO">
+
+    <!-- App Bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <!-- Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvHospitalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nama Rumah Sakit : AAAA"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ruangan : Wijaya"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tanggal : Now"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- ScrollView with improved configuration -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- First Table -->
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
+
+                    <!-- Table Header -->
+                    <TableRow
+                        android:background="@color/tb_Header_Primary"
+                        android:padding="5dp">
+                        
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Linen"
+                            android:textColor="@color/tb_HeaderText_Primary"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                            
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="System"
+                            android:textColor="@color/tb_HeaderText_Primary"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                            
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Scan"
+                            android:textColor="@color/tb_HeaderText_Primary"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                    </TableRow>
+                    
+                    <!-- Table content will be added dynamically -->
+                    
+                </TableLayout>
+
+                <!-- Unmatched Linen Section with improved visibility -->
+                <TextView
+                    android:id="@+id/tvUnmatchedTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Linen tidak diketahui"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Second Table for Unmatched RFIDs -->
+                <TableLayout
+                    android:id="@+id/tableLayoutUnmatched"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    android:layout_marginBottom="16dp">
+
+                    <!-- Table Header -->
+                    <TableRow
+                        android:background="@color/tb_Header_Primary"
+                        android:padding="5dp">
+                        
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="RFID"
+                            android:textColor="@color/tb_HeaderText_Primary"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                            
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Linen"
+                            android:textColor="@color/tb_HeaderText_Primary"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+                    </TableRow>
+                    
+                    <!-- Table content will be added dynamically -->
+                    
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Removed the Back button as we'll use the app bar back button instead -->
+    </LinearLayout>
+</LinearLayout>

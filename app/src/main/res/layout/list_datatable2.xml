@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp"
+    >
+    <TextView
+        android:id="@+id/lblNama"
+        android:layout_marginBottom="8dp"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Nama Barang"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:layout_toRightOf="@+id/lblNama"
+        android:id="@+id/txtNama"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Nama"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/lblWarna"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@+id/lblNama"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Warna"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/txtWarna"
+        android:layout_toRightOf="@+id/lblWarna"
+        android:layout_below="@id/lblNama"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Warna"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/lblUkuran"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@+id/lblWarna"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Ukuran"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/txtUkuran"
+        android:layout_below="@id/lblWarna"
+        android:layout_toRightOf="@id/lblWarna"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Ukuran"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/lblJumlah"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@+id/lblUkuran"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Jumlah"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/txtJumlah"
+        android:layout_below="@+id/lblUkuran"
+        android:layout_toRightOf="@id/lblJumlah"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Jumlah"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/lblBerat"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@+id/lblJumlah"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Berat"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/txtBerat"
+        android:layout_below="@id/lblJumlah"
+        android:layout_toRightOf="@id/lblBerat"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Berat"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/lblRuangan"
+        android:layout_below="@id/lblBerat"
+        android:layout_marginBottom="8dp"
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:text="Ruangan"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/txtRuangan"
+        android:layout_below="@id/lblBerat"
+        android:layout_toRightOf="@id/lblRuangan"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Ruangan"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+    <TextView
+        android:id="@+id/separator"
+        android:layout_below="@id/lblRuangan"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="------------------------------------------------"
+        android:textSize="12sp"
+        android:fontFamily="@font/iskra" />
+</RelativeLayout>
