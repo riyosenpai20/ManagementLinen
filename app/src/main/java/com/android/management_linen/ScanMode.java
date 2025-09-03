@@ -89,6 +89,7 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 	public static final String SHARED_PREFS = "shared_prefs";
 	public String token, namePIC, pdf_title, namaPerusahaan, jenisScan, namaRuangReport, namePIC1, namePIC2, namaRuangLinen;
 	private int inventoryFlag = 1;
+	private boolean fromSTORuangan = false;
 	Handler handler;
 	private ArrayList<HashMap<String, String>> tagList;
 	private SimpleAdapter adapter;
@@ -143,6 +144,8 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 		idRuang = sharedpreferences.getInt("idRuang", 0);
 		namaRuangReport = sharedpreferences.getString("namaRuangReport", null);
 		pdf_title = sharedpreferences.getString("pdf_title", null);
+		// Check if opened from STORuanganActivity
+		fromSTORuangan = sharedpreferences.getBoolean("fromSTORuangan", false);
 
 		System.out.println("namaRuangReport: " + namaRuangReport);
 
@@ -418,14 +421,23 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 				if (response.isSuccessful()) {
 					// Get the data from response
 					List<DetailScanSto> stoData = response.body().getData();
+					List<DetailScanSto.UnmatchedGroup> unmatchedGroups = response.body().getUnmatchedGroups();
+					List<DetailScanSto> notRegistered = response.body().getNotRegistered();
 					System.out.println(stoData);
+					System.out.println("Unmatched groups: " + unmatchedGroups);
+					System.out.println("Not registered: " + notRegistered);
+					
 					// Create intent to start PreviewSTO activity
 					Intent intent = new Intent(ScanMode.this, PreviewSTO.class);
 					
 					// Put the data as serializable extra
 					intent.putExtra("sto_data", (java.io.Serializable) stoData);
+					intent.putExtra("unmatched_groups", (java.io.Serializable) unmatchedGroups);
+					intent.putExtra("not_registered", (java.io.Serializable) notRegistered);
 					intent.putExtra("hospital_name", namaPerusahaan);
 					intent.putExtra("room_name", namaRuangReport);
+					// Pass the flag to indicate source
+					intent.putExtra("fromSTORuangan", fromSTORuangan);
 					
 					// Start the activity
 					startActivity(intent);
@@ -723,7 +735,7 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 						"E2806915000040234CD5E517",
 						"E2806915000050234CD0E8F6",
 						"E2806915000040234CD6CE39",
-						"E2806915000040207EC8D5BA",
+						"E2806915000040207EC8D5BA"
 
                         // Add more strings as needed
 				};

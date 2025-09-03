@@ -92,6 +92,7 @@
 
     <color name="colorBackground">#F5F5F5</color>
     <color name="colorPrimary">#1976D2</color>
+    <color name="colorDanger">#EB3F3F</color>
 
     <color name="lightGray">#F1F1F1</color>
 
@@ -100,6 +101,11 @@
     <color name="tb_HeaderText_Primary">@color/white</color>
     <color name="tb_RowEven_Primary">#A0D8FF</color>
     <color name="tb_RowOdd_Primary">@color/white</color>
+    <color name="tb_RowEven2_Primary">#D2ED85</color>
+    <color name="tb_RowOdd2_Primary">#F4FFD3</color>
+    <color name="tb_RowMain_Primary">#D5F0FF</color>
+    <color name="tb_RowNewGroup_Primary">#FFECD5</color>
+    <color name="tb_RowUnknown_Primary">#FFD5D5</color>
 
     <!--zxing end-->
 

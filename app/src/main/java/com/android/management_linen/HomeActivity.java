@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         
         cardSearch.setOnClickListener(v -> {
             // Navigate to Search activity
-            Intent intent = new Intent(HomeActivity.this, ScanView.class);
+            Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
             startActivity(intent);
         });
     }

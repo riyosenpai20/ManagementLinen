@@ -32,6 +32,9 @@ public class DetailScanSto implements Serializable {
     @SerializedName("no_match_tags")
     private List<String> noMatchTags;
     
+    @SerializedName("no_match_tags_count")
+    private int noMatchTagsCount;
+    
     // Constructor
     public DetailScanSto() {
         rfids = new ArrayList<>();
@@ -129,12 +132,23 @@ public class DetailScanSto implements Serializable {
         this.noMatchTags = noMatchTags;
     }
     
+    public int getNoMatchTagsCount() {
+        return noMatchTagsCount;
+    }
+    
+    public void setNoMatchTagsCount(int noMatchTagsCount) {
+        this.noMatchTagsCount = noMatchTagsCount;
+    }
+    
     // Static class for API response
     public static class ApiResponse implements Serializable {
         private List<DetailScanSto> data;
         
         @SerializedName("unmatched_groups")
         private List<UnmatchedGroup> unmatchedGroups;
+        
+        @SerializedName("not_registered")
+        private List<DetailScanSto> notRegistered;
         
         private String error;
         
@@ -152,6 +166,14 @@ public class DetailScanSto implements Serializable {
         
         public void setUnmatchedGroups(List<UnmatchedGroup> unmatchedGroups) {
             this.unmatchedGroups = unmatchedGroups;
+        }
+        
+        public List<DetailScanSto> getNotRegistered() {
+            return notRegistered;
+        }
+        
+        public void setNotRegistered(List<DetailScanSto> notRegistered) {
+            this.notRegistered = notRegistered;
         }
         
         public String getError() {

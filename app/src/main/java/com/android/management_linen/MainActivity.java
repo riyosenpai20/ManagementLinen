@@ -26,6 +26,7 @@ public class MainActivity extends TabActivity {
     SharedPreferences sharedpreferences;
     public static final String SHARED_PREFS = "shared_prefs";
     String token, namePIC, pdf_title, namaPerusahaan;
+    private boolean fromSTORuangan = false;
 
     private TabHost myTabHost;
     private Toolbar toolbar;
@@ -41,6 +42,8 @@ public class MainActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         token = sharedpreferences.getString("token", null);
+        // Check if MainActivity is opened from STORuanganActivity
+        fromSTORuangan = sharedpreferences.getBoolean("fromSTORuangan", false);
         if (token == null) {
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
@@ -184,14 +187,21 @@ public class MainActivity extends TabActivity {
     public void onBackPressed() {
         ArrayList<HashMap<String, String>> tagList2 = TagListHolder.getInstance().getTagList();
         System.out.println("Tag2: " + tagList2);
-        if(intLayout == 2){
+        
+        // Check if MainActivity was opened from STORuanganActivity
+        if(fromSTORuangan && intLayout == 2){
             intLayout = 1;
+            // Clear the flag since we're navigating back
+            sharedpreferences.edit().putBoolean("fromSTORuangan", false).apply();
             Intent intent = new Intent(this, STORuanganActivity.class);
             intent.putExtra("tagList", tagList2);
             intent.putExtra("pdf_title", pdf_title);
             startActivity(intent);
             finish();
-
+        } else if(intLayout == 2){
+            // Handle other navigation scenarios here if needed
+            intLayout = 1;
+            super.onBackPressed();
         } else {
             super.onBackPressed();
         }

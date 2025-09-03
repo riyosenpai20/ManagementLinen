@@ -160,6 +160,8 @@ public class STORuanganActivity extends AppCompatActivity {
                 sharedPreferences.edit().putInt("idRuang", ruang.getId()).apply();
                 sharedPreferences.edit().putString("namaRuangReport", ruang.getNama()).apply();
                 sharedPreferences.edit().putString("pdf_title", "STO").apply();
+                // Set flag to indicate MainActivity is opened from STORuanganActivity
+                sharedPreferences.edit().putBoolean("fromSTORuangan", true).apply();
     
                 // Navigate to ScanMode activity
                 Intent intent = new Intent(STORuanganActivity.this, MainActivity.class);
