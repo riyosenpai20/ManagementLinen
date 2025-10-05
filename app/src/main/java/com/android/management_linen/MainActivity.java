@@ -27,7 +27,10 @@ public class MainActivity extends TabActivity {
     public static final String SHARED_PREFS = "shared_prefs";
     String token, namePIC, pdf_title, namaPerusahaan;
     private boolean fromSTORuangan = false;
-
+    private boolean fromRuanganActivity = false;
+    private boolean fromSearchCard = false; // Penanda jika dibuka dari cardSearch
+    private boolean fromCardSto = false; // Penanda jika dibuka dari cardSto
+    private String cardType = ""; // Menambahkan variabel untuk menyimpan jenis card
     private TabHost myTabHost;
     private Toolbar toolbar;
 
@@ -37,6 +40,16 @@ public class MainActivity extends TabActivity {
 
     private VirtualKeyListenerBroadcastReceiver mVirtualKeyListenerBroadcastReceiver;
 
+    // Static block to load native libraries
+    static {
+        try {
+            System.loadLibrary("serial_port");
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+            // Cannot show toast here as it's a static block
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +57,12 @@ public class MainActivity extends TabActivity {
         token = sharedpreferences.getString("token", null);
         // Check if MainActivity is opened from STORuanganActivity
         fromSTORuangan = sharedpreferences.getBoolean("fromSTORuangan", false);
+        // Check if MainActivity is opened from RuanganActivity
+        fromRuanganActivity = sharedpreferences.getBoolean("fromRuanganActivity", false);
+        // Check if MainActivity is opened from cardSearch or cardSto
+        fromSearchCard = sharedpreferences.getBoolean("fromSearchCard", false);
+        fromCardSto = sharedpreferences.getBoolean("fromCardSto", false);
+        cardType = sharedpreferences.getString("cardType", "");
         if (token == null) {
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
@@ -62,7 +81,37 @@ public class MainActivity extends TabActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                // Pastikan perilaku sama dengan tombol back di navigasi
+                ArrayList<HashMap<String, String>> tagList2 = TagListHolder.getInstance().getTagList();
+                
+                // Check if MainActivity was opened from STORuanganActivity
+                if(fromSTORuangan && intLayout == 2){
+                    intLayout = 1;
+                    // Clear the flag since we're navigating back
+                    sharedpreferences.edit().putBoolean("fromSTORuangan", false).apply();
+                    Intent intent = new Intent(MainActivity.this, STORuanganActivity.class);
+                    intent.putExtra("tagList", tagList2);
+                    intent.putExtra("pdf_title", pdf_title);
+                    startActivity(intent);
+                    finish();
+                } 
+                // Check if MainActivity was opened from RuanganActivity
+                else if(fromSearchCard && intLayout == 2){
+                    intLayout = 1;
+                    // Clear the flag since we're navigating back
+                    sharedpreferences.edit().putBoolean("fromSearchCard", false).apply();
+                    Intent intent = new Intent(MainActivity.this, RuanganActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(intLayout == 2){
+                    // Handle other navigation scenarios here if needed
+                    intLayout = 1;
+                    MainActivity.super.onBackPressed();
+                } else {
+                    MainActivity.super.onBackPressed();
+                }
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
@@ -99,7 +148,37 @@ public class MainActivity extends TabActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            // Gunakan logika yang sama dengan tombol back di appbar
+            ArrayList<HashMap<String, String>> tagList2 = TagListHolder.getInstance().getTagList();
+            
+            // Check if MainActivity was opened from STORuanganActivity
+            if(fromSTORuangan && intLayout == 2){
+                intLayout = 1;
+                // Clear the flag since we're navigating back
+                sharedpreferences.edit().putBoolean("fromSTORuangan", false).apply();
+                Intent intent = new Intent(this, STORuanganActivity.class);
+                intent.putExtra("tagList", tagList2);
+                intent.putExtra("pdf_title", pdf_title);
+                startActivity(intent);
+                finish();
+            } 
+            // Check if MainActivity was opened from RuanganActivity
+            else if(fromSearchCard && intLayout == 2){
+                intLayout = 1;
+                // Clear the flag since we're navigating back
+                sharedpreferences.edit().putBoolean("fromSearchCard", false).apply();
+                Intent intent = new Intent(this, RuanganActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else if(intLayout == 2){
+                // Handle other navigation scenarios here if needed
+                intLayout = 1;
+                super.onBackPressed();
+            } else {
+                super.onBackPressed();
+            }
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -113,24 +192,50 @@ public class MainActivity extends TabActivity {
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         this.registerReceiver(mVirtualKeyListenerBroadcastReceiver, intentFilter);
 
-        mUHFDevice.UhfOpen_long();
-        mUHFDevice.setTriggerkey(0);
+        try {
+            // Load the native library explicitly
+            System.loadLibrary("serial_port");
+            
+            mUHFDevice.UhfOpen_long();
+            mUHFDevice.setTriggerkey(0);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //耗时操作执行
-                SystemClock.sleep(2000);
-                int result = Reader.rrlib.Connect(mUHFDevice.SerialDev(), mUHFDevice.BaudrateDev_3(),1);
-                if(result ==0){
-                    ToolsHelper.show(MainActivity.this, getString(R.string.openport_success));
-                }else {
-                    ToolsHelper.show(MainActivity.this, getString(R.string.openport_failed));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //耗时操作执行
+                        SystemClock.sleep(2000);
+                        int result = Reader.rrlib.Connect(mUHFDevice.SerialDev(), mUHFDevice.BaudrateDev_3(),1);
+                        if(result ==0){
+                            ToolsHelper.show(MainActivity.this, getString(R.string.openport_success));
+                        }else {
+                            ToolsHelper.show(MainActivity.this, getString(R.string.openport_failed));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ToolsHelper.show(MainActivity.this, "Error connecting to device: " + e.getMessage());
+                    }
                 }
-            }
-        }).start();
+            }).start();
 
-        ToolsHelper.show(MainActivity.this, "正在连接.....");
+            ToolsHelper.show(MainActivity.this, "Connecting...");
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+            ToolsHelper.show(MainActivity.this, "Native library not found. RFID functionality will be limited.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToolsHelper.show(MainActivity.this, "Error initializing RFID: " + e.getMessage());
+        }
+
+//        if (sharedpreferences != null) {
+//            sharedpreferences.edit().putBoolean("fromSTORuangan", false).apply();
+//            sharedpreferences.edit().putBoolean("fromRuanganActivity", false).apply();
+//            sharedpreferences.edit().putBoolean("fromSearchCard", false).apply();
+//            sharedpreferences.edit().putBoolean("fromCardSto", false).apply();
+//
+//            System.out.println("fromSTORuangan2: " + fromSTORuangan);
+//            System.out.println("fromSearchCard2: " + fromSearchCard);
+//        }
 
         super.onResume();
     }
@@ -183,11 +288,20 @@ public class MainActivity extends TabActivity {
 //        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    /**
+     * Handle back button press
+     * Note: onBackPressed() is deprecated in newer Android versions, but still works in TabActivity
+     * We can't use OnBackPressedCallback here because TabActivity doesn't support it
+     * 
+     * This method is now consistent with the back button in the toolbar and action bar
+     */
     @Override
     public void onBackPressed() {
         ArrayList<HashMap<String, String>> tagList2 = TagListHolder.getInstance().getTagList();
         System.out.println("Tag2: " + tagList2);
-        
+        System.out.println("MainActivity fromSTORuangan: " + fromSTORuangan);
+        System.out.println("MainActivity fromSearchCard: " + fromSearchCard);
+
         // Check if MainActivity was opened from STORuanganActivity
         if(fromSTORuangan && intLayout == 2){
             intLayout = 1;
@@ -198,7 +312,17 @@ public class MainActivity extends TabActivity {
             intent.putExtra("pdf_title", pdf_title);
             startActivity(intent);
             finish();
-        } else if(intLayout == 2){
+        } 
+        // Check if MainActivity was opened from RuanganActivity
+        else if(fromSearchCard && intLayout == 2){
+            intLayout = 1;
+            // Clear the flag since we're navigating back
+            sharedpreferences.edit().putBoolean("fromSearchCard", false).apply();
+            Intent intent = new Intent(this, RuanganActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else if(intLayout == 2){
             // Handle other navigation scenarios here if needed
             intLayout = 1;
             super.onBackPressed();

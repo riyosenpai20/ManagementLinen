@@ -1,0 +1,3 @@
+/* This is a placeholder for the native library file.
+   In a real implementation, you would need to obtain the actual compiled .so file
+   for the x86 architecture and place it here. */

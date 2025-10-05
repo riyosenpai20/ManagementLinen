@@ -70,6 +70,9 @@
         <activity
             android:name=".RuanganActivity"
             android:exported="false" />
+        <activity
+            android:name=".PreviewSearchActivity"
+            android:label="Preview Pencarian" />
     </application>
 
 </manifest>

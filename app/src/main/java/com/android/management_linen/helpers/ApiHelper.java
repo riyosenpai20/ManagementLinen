@@ -7,6 +7,8 @@ import com.android.management_linen.models.ResponseData;
 import com.android.management_linen.models.ResponseDataRuangan;
 import com.android.management_linen.models.ResponseScanBersih;
 import com.android.management_linen.models.ResponseScanSTO;
+import com.android.management_linen.models.ResponseUnknownLinen;
+import com.android.management_linen.models.RfidRequest;
 import com.android.management_linen.models.ScanBersihResponse;
 import com.android.management_linen.models.ScanSTOResponse;
 import com.android.management_linen.requests.LogInRequest;
@@ -75,6 +77,14 @@ public interface ApiHelper {
     @POST("api/android/scan_sto/")
     Call<ResponseScanSTO> scan_sto(
             @Body ScanSTOResponse scanSTOResponse,
+            @Header ("Authorization") String token,
+            @Header ("Content-Type") String contentType,
+            @Header ("Accept") String accept
+    );
+
+    @POST("api/android/search_unknown_linen/")
+    Call<ResponseUnknownLinen> search_unknown_linen(
+            @Body RfidRequest rfidRequest,
             @Header ("Authorization") String token,
             @Header ("Content-Type") String contentType,
             @Header ("Accept") String accept

@@ -53,12 +53,14 @@ public class HomeActivity extends AppCompatActivity {
         CardView cardSearch = findViewById(R.id.card_search);
         
         cardSto.setOnClickListener(v -> {
+            sharedPreferences.edit().putBoolean("fromSTORuangan", true).apply();
             // Navigate to STORuanganActivity instead of TestIntent
             Intent intent = new Intent(HomeActivity.this, STORuanganActivity.class);
             startActivity(intent);
         });
         
         cardSearch.setOnClickListener(v -> {
+            sharedPreferences.edit().putBoolean("fromSearchCard", true).apply();
             // Navigate to Search activity
             Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
             startActivity(intent);

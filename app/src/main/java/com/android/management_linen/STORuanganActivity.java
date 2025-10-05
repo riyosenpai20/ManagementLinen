@@ -37,6 +37,8 @@ public class STORuanganActivity extends AppCompatActivity {
     private ApiHelper apiService;
     private GridLayout gridRooms;
     private Map<String, Integer> ruanganMap = new HashMap<>();
+    private boolean fromSTORuangan = false;
+    private boolean fromSearchCard = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,12 @@ public class STORuanganActivity extends AppCompatActivity {
         // Initialize shared preferences
         sharedPreferences = getSharedPreferences(LoginActivity.SHARED_PREFS, Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
+        fromSTORuangan = sharedPreferences.getBoolean("fromSTORuangan", false);
+        fromSearchCard = sharedPreferences.getBoolean("fromSearchCard", false);
+
+        System.out.println("status fromStoRuangan: " + fromSTORuangan);
+        System.out.println("status fromSearchCard: " + fromSearchCard);
+
 
         if (token == null) {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -162,7 +170,7 @@ public class STORuanganActivity extends AppCompatActivity {
                 sharedPreferences.edit().putString("pdf_title", "STO").apply();
                 // Set flag to indicate MainActivity is opened from STORuanganActivity
                 sharedPreferences.edit().putBoolean("fromSTORuangan", true).apply();
-    
+
                 // Navigate to ScanMode activity
                 Intent intent = new Intent(STORuanganActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -186,5 +194,16 @@ public class STORuanganActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reset the flag when returning to this activity
+        if (sharedPreferences != null) {
+            sharedPreferences.edit().putBoolean("fromSTORuangan", false).apply();
+            sharedPreferences.edit().putBoolean("fromRuanganActivity", false).apply();
+            sharedPreferences.edit().putBoolean("fromSearchCard", false).apply();
+        }
     }
 }

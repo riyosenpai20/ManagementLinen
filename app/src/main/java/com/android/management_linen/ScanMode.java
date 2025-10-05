@@ -90,6 +90,8 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 	public String token, namePIC, pdf_title, namaPerusahaan, jenisScan, namaRuangReport, namePIC1, namePIC2, namaRuangLinen;
 	private int inventoryFlag = 1;
 	private boolean fromSTORuangan = false;
+	private boolean fromRuanganActivity = false;
+	private String cardType = "";
 	Handler handler;
 	private ArrayList<HashMap<String, String>> tagList;
 	private SimpleAdapter adapter;
@@ -146,7 +148,10 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 		pdf_title = sharedpreferences.getString("pdf_title", null);
 		// Check if opened from STORuanganActivity
 		fromSTORuangan = sharedpreferences.getBoolean("fromSTORuangan", false);
-
+		// Check if opened from RuanganActivity
+		fromRuanganActivity = sharedpreferences.getBoolean("fromRuanganActivity", false);
+		cardType = sharedpreferences.getString("cardType", "");
+		
 		System.out.println("namaRuangReport: " + namaRuangReport);
 
 		if (token == null) {
@@ -248,31 +253,31 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 					.build();
 			apiService = retrofit.create(ApiHelper.class);
 
-			//Get detail list
-			Call<List<DetailsScanBersih>> call = apiService.inventory_detail_scan(listTags, "Token " +token, "application/json", "application/json");
-			call.enqueue(new Callback<List<DetailsScanBersih>>() {
-
-				@Override
-				public void onResponse(Call<List<DetailsScanBersih>> call, Response<List<DetailsScanBersih>> response) {
-					if (response.isSuccessful() && response.body() != null){
-						detailsListScan.addAll(response.body());
-//						adapter.notifyDataSetChanged();
-//						valJumlahItem = findViewById(R.id.valJumlahItem);
-//						valJumlahItem.setText("" + detailsListScan.size());
-
-						System.out.println("Test: " + response.body().toString());
-
-					} else {
-						Toast.makeText(ScanMode.this, "Response Failed", Toast.LENGTH_SHORT).show();
-					}
-				}
-
-				@Override
-				public void onFailure(Call<List<DetailsScanBersih>> call, Throwable t) {
-					System.out.println(t.toString());
-					Toast.makeText(ScanMode.this, t.toString(), Toast.LENGTH_SHORT).show();
-				}
-			});
+//			//Get detail list
+//			Call<List<DetailsScanBersih>> call = apiService.inventory_detail_scan(listTags, "Token " +token, "application/json", "application/json");
+//			call.enqueue(new Callback<List<DetailsScanBersih>>() {
+//
+//				@Override
+//				public void onResponse(Call<List<DetailsScanBersih>> call, Response<List<DetailsScanBersih>> response) {
+//					if (response.isSuccessful() && response.body() != null){
+//						detailsListScan.addAll(response.body());
+////						adapter.notifyDataSetChanged();
+////						valJumlahItem = findViewById(R.id.valJumlahItem);
+////						valJumlahItem.setText("" + detailsListScan.size());
+//
+//						System.out.println("Test: " + response.body().toString());
+//
+//					} else {
+//						Toast.makeText(ScanMode.this, "Response Failed", Toast.LENGTH_SHORT).show();
+//					}
+//				}
+//
+//				@Override
+//				public void onFailure(Call<List<DetailsScanBersih>> call, Throwable t) {
+//					System.out.println(t.toString());
+//					Toast.makeText(ScanMode.this, t.toString(), Toast.LENGTH_SHORT).show();
+//				}
+//			});
 
 			// Get User Detail
 			Call<ResponseData> getUser = apiService.getResponseData("Token " +token, "application/json", "application/json");
@@ -298,9 +303,30 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 					showAlertDialog("Error", "Error: " + t.getMessage());
 				}
 			});
-			BtnCetak.setOnClickListener(v -> {
-				sendTagsToSTO();
-			});
+			// Change button text to "Lanjut" if opened from RuanganActivity
+			if (fromRuanganActivity) {
+				BtnCetak.setText("Lanjut");
+				BtnCetak.setOnClickListener(v -> {
+					// Create a list of tags from the tagList
+					List<String> listTags = new ArrayList<>();
+					for (HashMap<String, String> map : tagList) {
+						String tagUii = map.get("tagUii");
+						if (tagUii != null) {
+							listTags.add(tagUii);
+						}
+					}
+					
+					// Open PreviewSearchActivity
+					Intent intent = new Intent(ScanMode.this, PreviewSearchActivity.class);
+					intent.putExtra("tagList", (java.io.Serializable) listTags);
+					intent.putExtra("namaRuang", namaRuangReport);
+					startActivity(intent);
+				});
+			} else {
+				BtnCetak.setOnClickListener(v -> {
+					sendTagsToSTO();
+				});
+			}
 //			BtnCetak.setOnClickListener(new OnClickListener() {
 //
 //				@Override
@@ -468,107 +494,107 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 				.build();
 		apiService = retrofit.create(ApiHelper.class);
 
-		//Get detail list
-		Call<List<DetailsScanBersih>> call = apiService.inventory_detail_scan(listTags, "Token " +token, "application/json", "application/json");
-		call.enqueue(new Callback<List<DetailsScanBersih>>() {
-
-			@Override
-			public void onResponse(Call<List<DetailsScanBersih>> call, Response<List<DetailsScanBersih>> response) {
-				if (response.isSuccessful() && response.body() != null){
-					detailsListScan.addAll(response.body());
-//						adapter.notifyDataSetChanged();
-//						valJumlahItem = findViewById(R.id.valJumlahItem);
-//						valJumlahItem.setText("" + detailsListScan.size());
-
-					System.out.println("Test: " + response.body().toString());
-					// Step ke 2
-					// Get User Detail
-					Call<ResponseData> getUser = apiService.getResponseData("Token " +token, "application/json", "application/json");
-					getUser.enqueue(new Callback<ResponseData>() {
-						@Override
-						public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-							if (response.isSuccessful()) {
-								ResponseData responseData = response.body();
-								if (responseData != null && !responseData.getData().isEmpty()) {
-									namePIC = responseData.getData().get(0).getName();
-									idPerusahaan = responseData.getData().get(0).getPerusahaan();
-									namaPerusahaan = responseData.getNamaPerusahaan();
-									roleUser = responseData.getRoleUser();
-									type_rs = responseData.getTypeRs();
-									System.out.println("Role User: " + roleUser);
-
-									// Step ke 3
-									ScanBersihResponse scanBersihResponse = new ScanBersihResponse(listTags, idRuang);
-
-									Call<ResponseScanBersih> call2 = apiService.scan_bersih(scanBersihResponse, "Token " +token, "application/json", "application/json");
-									call2.enqueue(new Callback<ResponseScanBersih>() {
-
-										@Override
-										public void onResponse(Call<ResponseScanBersih> call, Response<ResponseScanBersih> response) {
-											if (response.isSuccessful()) {
-												String result = response.body().getResult();
-												String message = response.body().getMessage();
-												List<DetailsScanBersih> data = response.body().getData();
-
-//                            showDialogScanBersih();
-												System.out.println(response.body().toString());
-												System.out.println(response.body().getData().toString());
-												System.out.println("namaRuangReport2: " + namaRuangReport);
-
-												try {
-													if(result.equals("ok")) {
-														File pdfFile = generatePdf(detailsListScan, namaRuangReport, namePIC, roleUser);
-														showPDFPreview(pdfFile, namaRuangReport, roleUser);
-													} else {
-														DialogUtils.showAlertDialog(ScanMode.this, "Perhatian", message, "OK",(dialog, which) -> {
-															try {
-																File pdfFile = generatePdf(detailsListScan, namaRuangReport, namePIC, roleUser);
-																showPDFPreview(pdfFile, namaRuangReport, roleUser);
-															} catch (IOException ex) {
-																DialogUtils.showAlertDialog(ScanMode.this, "Perhatian", ex.getMessage(), "OK", (dialog1, which1) -> {
-																	dialog.dismiss();
-																}, null, null);
-															}
-														}, null, null);
-
-													}
-												} catch (IOException e) {
-													e.printStackTrace();
-												}
-											} else {
-												showAlertDialog("Perhatian!","Response Failed");
-											}
-										}
-
-										@Override
-										public void onFailure(Call<ResponseScanBersih> call, Throwable t) {
-											Toast.makeText(ScanMode.this, t.toString(), Toast.LENGTH_SHORT).show();
-										}
-									});
-								}
-							}
-							System.out.println(token);
-						}
-
-						@Override
-						public void onFailure(Call<ResponseData> call, Throwable t) {
-							showAlertDialog("Error", "Error: " + t.getMessage());
-						}
-					});
-
-
-
-				} else {
-					Toast.makeText(ScanMode.this, "Response Failed", Toast.LENGTH_SHORT).show();
-				}
-			}
-
-			@Override
-			public void onFailure(Call<List<DetailsScanBersih>> call, Throwable t) {
-				System.out.println(t.toString());
-				Toast.makeText(ScanMode.this, t.toString(), Toast.LENGTH_SHORT).show();
-			}
-		});
+//		//Get detail list
+//		Call<List<DetailsScanBersih>> call = apiService.inventory_detail_scan(listTags, "Token " +token, "application/json", "application/json");
+//		call.enqueue(new Callback<List<DetailsScanBersih>>() {
+//
+//			@Override
+//			public void onResponse(Call<List<DetailsScanBersih>> call, Response<List<DetailsScanBersih>> response) {
+//				if (response.isSuccessful() && response.body() != null){
+//					detailsListScan.addAll(response.body());
+////						adapter.notifyDataSetChanged();
+////						valJumlahItem = findViewById(R.id.valJumlahItem);
+////						valJumlahItem.setText("" + detailsListScan.size());
+//
+//					System.out.println("Test: " + response.body().toString());
+//					// Step ke 2
+//					// Get User Detail
+//					Call<ResponseData> getUser = apiService.getResponseData("Token " +token, "application/json", "application/json");
+//					getUser.enqueue(new Callback<ResponseData>() {
+//						@Override
+//						public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+//							if (response.isSuccessful()) {
+//								ResponseData responseData = response.body();
+//								if (responseData != null && !responseData.getData().isEmpty()) {
+//									namePIC = responseData.getData().get(0).getName();
+//									idPerusahaan = responseData.getData().get(0).getPerusahaan();
+//									namaPerusahaan = responseData.getNamaPerusahaan();
+//									roleUser = responseData.getRoleUser();
+//									type_rs = responseData.getTypeRs();
+//									System.out.println("Role User: " + roleUser);
+//
+//									// Step ke 3
+//									ScanBersihResponse scanBersihResponse = new ScanBersihResponse(listTags, idRuang);
+//
+//									Call<ResponseScanBersih> call2 = apiService.scan_bersih(scanBersihResponse, "Token " +token, "application/json", "application/json");
+//									call2.enqueue(new Callback<ResponseScanBersih>() {
+//
+//										@Override
+//										public void onResponse(Call<ResponseScanBersih> call, Response<ResponseScanBersih> response) {
+//											if (response.isSuccessful()) {
+//												String result = response.body().getResult();
+//												String message = response.body().getMessage();
+//												List<DetailsScanBersih> data = response.body().getData();
+//
+////                            showDialogScanBersih();
+//												System.out.println(response.body().toString());
+//												System.out.println(response.body().getData().toString());
+//												System.out.println("namaRuangReport2: " + namaRuangReport);
+//
+//												try {
+//													if(result.equals("ok")) {
+//														File pdfFile = generatePdf(detailsListScan, namaRuangReport, namePIC, roleUser);
+//														showPDFPreview(pdfFile, namaRuangReport, roleUser);
+//													} else {
+//														DialogUtils.showAlertDialog(ScanMode.this, "Perhatian", message, "OK",(dialog, which) -> {
+//															try {
+//																File pdfFile = generatePdf(detailsListScan, namaRuangReport, namePIC, roleUser);
+//																showPDFPreview(pdfFile, namaRuangReport, roleUser);
+//															} catch (IOException ex) {
+//																DialogUtils.showAlertDialog(ScanMode.this, "Perhatian", ex.getMessage(), "OK", (dialog1, which1) -> {
+//																	dialog.dismiss();
+//																}, null, null);
+//															}
+//														}, null, null);
+//
+//													}
+//												} catch (IOException e) {
+//													e.printStackTrace();
+//												}
+//											} else {
+//												showAlertDialog("Perhatian!","Response Failed");
+//											}
+//										}
+//
+//										@Override
+//										public void onFailure(Call<ResponseScanBersih> call, Throwable t) {
+//											Toast.makeText(ScanMode.this, t.toString(), Toast.LENGTH_SHORT).show();
+//										}
+//									});
+//								}
+//							}
+//							System.out.println(token);
+//						}
+//
+//						@Override
+//						public void onFailure(Call<ResponseData> call, Throwable t) {
+//							showAlertDialog("Error", "Error: " + t.getMessage());
+//						}
+//					});
+//
+//
+//
+//				} else {
+//					Toast.makeText(ScanMode.this, "Response Failed", Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//
+//			@Override
+//			public void onFailure(Call<List<DetailsScanBersih>> call, Throwable t) {
+//				System.out.println(t.toString());
+//				Toast.makeText(ScanMode.this, t.toString(), Toast.LENGTH_SHORT).show();
+//			}
+//		});
 
 
 	}
@@ -993,6 +1019,11 @@ public class ScanMode extends AppCompatActivity implements OnClickListener, OnIt
 		// TODO Auto-generated method stub
 		super.onResume();
 		isStopThread =false;
+
+		if (sharedpreferences != null) {
+            sharedpreferences.edit().putBoolean("fromSTORuangan", false).apply();
+            sharedpreferences.edit().putBoolean("fromRuanganActivity", false).apply();
+        }
 
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ON_TRIGGER_KEYUP);
