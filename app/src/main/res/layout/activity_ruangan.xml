@@ -7,29 +7,22 @@
     android:background="@color/white"
     tools:context=".RuanganActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/light_blue"
-        android:elevation="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Ruangan"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_back" />
+    <!-- Toolbar removed -->
 
     <TextView
         android:id="@+id/tv_ruangan_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:text="Ruangan"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Laundry"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -94,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Inventory"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -122,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ruangan"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>

@@ -23,7 +23,7 @@
             android:layout_height="48dp"
             android:contentDescription="Room"
             android:src="@drawable/ic_book_open"
-            android:tint="@color/light_blue" />
+            android:tint="@color/bg_recommended_color" />
 
         <TextView
             android:id="@+id/tv_room_name"
@@ -34,7 +34,7 @@
             android:maxLines="1"
             android:text="Room Name"
             android:textAlignment="center"
-            android:textColor="@color/light_blue"
+            android:textColor="@color/bg_recommended_color"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>

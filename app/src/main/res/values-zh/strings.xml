@@ -4,7 +4,7 @@
     <drawable name="clr_pressed">#333333</drawable>
     <drawable name="list_normal">#00000000</drawable>
     <drawable name="list_pressed">#FF333333</drawable>
-    <string name="app_name">SynDiScan Linen</string>
+    <string name="app_name">Management Linen</string>
     <string name="menu_settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
@@ -382,7 +382,7 @@
     <string name="btInventory">开始识别</string>
     <string name="title_stop_Inventory">停止识别</string>
     <string name="title_stoping_Inventory">停止中</string>
-    <string name="btImport">Sample</string>
+    <string name="btImport">导出</string>
 
     <string name="tvKillPwd">销毁密码：</string>
     <string name="btKill">销毁</string>
@@ -405,11 +405,6 @@
     <string name="lock_failed">锁定失败</string>
     <string name="lock_success">锁定成功</string>
     <string name="noteStr">注：锁定或杀死标签密码不能为8个0</string>
-
-    <string name="forgot_password">Forgot Password?</string>
-
-    <!-- Scan Mode -->
-    <string name="scanmode_button_scan">Save</string>
 
     <string-array name="en_select">
         <item>禁止</item>

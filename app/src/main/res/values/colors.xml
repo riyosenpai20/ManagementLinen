@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material Design Colors -->
+    <color name="primary">#004AAD </color>
+    <color name="primary_variant">#489EF4</color>
+    <color name="secondary">#489EF4</color>
+    <color name="secondary_variant">#489EF4</color>
+    <color name="background">#e2e8f0</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#db2627</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="on_background">#000000</color>
+    <color name="on_surface">#000000</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="bg_recommended_color">@color/primary</color>
+    
+    <!-- Original Colors -->
 	<color name="transparent_background_button">#11000000</color>
     <color name="transparent_background">#ffffffff</color>
     <color name="light_blue">#0bbbf7</color>
@@ -11,6 +27,7 @@
     <color name="gray1">#dbdbdb</color>
     <color name="gray2">#ababab</color>
     <color name="gray3">#ededed</color>
+    <color name="gray4">#e2e8f0</color>
     <color name="red">#FF0000</color>
     <color name="red1">#db2627</color>
     <color name="red2">#db2829</color>
@@ -24,7 +41,8 @@
     <color name="green2">#88008000</color>
     <color name="green3">#aa008000</color>
     <color name="blue">#0000FF</color>
-    <color name="blue1">#2095ac</color>
+<!--    <color name="blue1">#2095ac</color>-->
+    <color name="blue1">@color/primary</color>
     <color name="blue2">#2398bc</color>
     <color name="purple">#800080</color>
     <color name="pink">#FFC0CB</color>
@@ -43,7 +61,6 @@
     <color name="deep_gray">#ff3f3f3f</color>
     <color name="text_gray">#ff999999</color>
 
-    <color name="bg_recommended_color">#2095AC</color>
 
     <color name="sliding_menu_back">#ff2c2c2e</color>
     <color name="sliding_menu_title_text_color">#ff999999</color>
@@ -76,25 +93,9 @@
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
 
-    <color name="bgcolor_details">#e2e8f0</color>
-    <color name="color_expired">#DC2626</color>
-    <color name="color_expiring">#D7A534</color>
-    <color name="color_used">#16A34A</color>
-    <color name="color_unused">#2563EB</color>
-    <color name="color_disabled">#A9A9A9</color>
-    <color name="bg_expired">#FEE2E2</color>
-    <color name="bg_expiring">#FEF9C3</color>
-    <color name="bg_used">#DCFCE7</color>
-    <color name="bg_unused">#DBEAFE</color>
-    <color name="bg_disabled">#E5E7EB</color>
-    <color name="btnMaterialUI">#1976D2</color>
-    <color name="bgMaterialUI">#1976D2</color>
-
     <color name="colorBackground">#F5F5F5</color>
-    <color name="colorPrimary">#1976D2</color>
+    <color name="colorPrimary">@color/primary</color>
     <color name="colorDanger">#EB3F3F</color>
-
-    <color name="lightGray">#F1F1F1</color>
 
     <!-- Color for table -->
     <color name="tb_Header_Primary">@color/colorPrimary</color>

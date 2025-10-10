@@ -8,10 +8,22 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
+*/build
 /captures
 .externalNativeBuild
 .cxx
-.envrc
-.idea/
-.git-old
+local.properties
+
+# Keystore files
+*.jks
+*.keystore
+
+# Kredensial lokal
+gradle.properties.local
+**/release/output.json
+*.apk
+*.aab
+temp_extract/
+Thumbs.db
+*.log
+*.tmp
